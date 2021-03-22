@@ -203,6 +203,18 @@ class KeycloakOpenID:
                                             data=payload)
         return raise_error_from_response(data_raw, KeycloakGetError)
 
+    def requesting_party_token(self, token, **extra):
+        params_path = {"realm-name": self.realm_name}
+        payload = {
+            "grant_type": "urn:ietf:params:oauth:grant-type:uma-ticket",
+        }
+        if extra:
+            payload.update(extra)
+        self.connection.add_param_headers("Authorization", "Bearer " + token)
+        data_raw = self.connection.raw_post(URL_TOKEN.format(**params_path),
+                                            data=payload)
+        return raise_error_from_response(data_raw, KeycloakGetError)
+
     def refresh_token(self, refresh_token, grant_type=["refresh_token"]):
         """
         The token endpoint is used to obtain tokens. Tokens can either be obtained by
