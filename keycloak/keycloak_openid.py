@@ -137,7 +137,7 @@ class KeycloakOpenID:
         :return:
         """
         if method_token_info == 'introspect':
-            token_info = self.introspect(token)
+            token_info = self.introspect(token, **kwargs)
         else:
             token_info = self.decode_token(token, **kwargs)
 
